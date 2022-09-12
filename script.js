@@ -52,12 +52,10 @@ const createProductList = async () => {
   const fetch = await fetchProducts('computador');
   const listProducts = fetch.results;
   listProducts.forEach((element) => {
-    const { id, title, thumbnail } = element;
-    const item = createProductItemElement({ id, title, thumbnail });
+    const item = createProductItemElement(element);
     sectionItens.appendChild(item);
   });
 };
-createProductList();
 
 /**
  * Função que recupera o ID do produto passado como parâmetro.
@@ -74,6 +72,8 @@ const getIdFromProductItem = (product) => product.querySelector('span.id').inner
  * @param {string} product.price - Preço do produto.
  * @returns {Element} Elemento de um item do carrinho.
  */
+
+ const cartItemClickListener = () => {};
 const createCartItemElement = ({ id, title, price }) => {
   const li = document.createElement('li');
   li.className = 'cart__item';
@@ -82,4 +82,19 @@ const createCartItemElement = ({ id, title, price }) => {
   return li;
 };
 
-window.onload = () => { };
+const addCart = async () => {
+  await createProductList();
+  const cartItens = document.querySelector('.cart__items');
+  const addCartBtn = document.querySelectorAll('.item__add');
+  addCartBtn.forEach((element) => {
+    element.addEventListener('click', async (btn) => {
+      const idTarget = btn.target.parentNode.firstChild;
+      const itemInfo = await fetchItem(idTarget.innerText);
+      cartItens.appendChild(createCartItemElement(itemInfo));
+    });
+  });
+};
+
+window.onload = () => {
+  addCart();
+};

@@ -73,7 +73,10 @@ const getIdFromProductItem = (product) => product.querySelector('span.id').inner
  * @returns {Element} Elemento de um item do carrinho.
  */
 
- const cartItemClickListener = () => {};
+ const cartItemClickListener = (itemCLick) => {
+  const cartItens = document.querySelector('.cart__items');
+  cartItens.removeChild(itemCLick.target);
+ };
 const createCartItemElement = ({ id, title, price }) => {
   const li = document.createElement('li');
   li.className = 'cart__item';

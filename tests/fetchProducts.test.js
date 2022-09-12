@@ -16,7 +16,7 @@ describe('1 - Teste a função fetchProducts', () => {
     expect(fetch).toBeCalledWith(expectedUrl);
   })
   it('Teste se o retorno da função fetchProducts com o argumento computador é uma estrutura de dados igual ao objeto computadorSearch', async () =>{
-    expect(typeof await fetchItem('computador')).toEqual(computadorSearch);
+    expect(typeof await fetchProducts('computador')).toEqual(typeof computadorSearch);
   })
   it('Teste se, ao chamar a função fetchProducts sem argumento, retorna um erro com a mensagem: You must provide an url', async () => {
     try {

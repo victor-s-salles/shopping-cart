@@ -39,7 +39,8 @@ const createCustomElement = (element, className, innerText) => {
 const createProductItemElement = ({ id, title, thumbnail, price }) => {
   const section = document.createElement('section');
   section.className = 'item';
-  const priceFormated = `R$${price}`
+  const priceFormated = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' })
+  .format(price);
   section.appendChild(createCustomElement('span', 'item_id', id));
   section.appendChild(createCustomElement('span', 'item__title', title));
   section.appendChild(createProductImageElement(thumbnail));
@@ -81,7 +82,8 @@ const getIdFromProductItem = (product) => product.querySelector('span.id').inner
 const createCartItemElement = ({ id, title, price }) => {
   const li = document.createElement('li');
   li.className = 'cart__item';
-  li.innerText = `ID: ${id} | TITLE: ${title} | PRICE: R$${price}`;
+  li.innerText = `ID: ${id} | TITLE: ${title} | Preço: ${new Intl.NumberFormat('pt-BR', 
+  { style: 'currency', currency: 'BRL' }).format(price)}`;
   li.addEventListener('click', cartItemClickListener);
   return li;
 };

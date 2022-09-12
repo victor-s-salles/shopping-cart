@@ -9,10 +9,10 @@ const fetchProducts = async (key) => {
     console.log(error);
   }
 };
-const test = async () => {
-  console.log(await fetchProducts('computador'));
-};
-test();
+// const test = async () => {
+//   console.log(await fetchProducts('computador'));
+// };
+// test();
 
 if (typeof module !== 'undefined') {
   module.exports = {

@@ -84,13 +84,13 @@ const createCartItemElement = ({ id, title, price }) => {
 
 const addCart = async () => {
   await createProductList();
-  const cartItens = document.querySelector('.cart__items');
+  const cartItem = document.querySelector('.cart__items');
   const addCartBtn = document.querySelectorAll('.item__add');
   addCartBtn.forEach((element) => {
     element.addEventListener('click', async (btn) => {
       const idTarget = btn.target.parentNode.firstChild;
       const itemInfo = await fetchItem(idTarget.innerText);
-      cartItens.appendChild(createCartItemElement(itemInfo));
+      cartItem.appendChild(createCartItemElement(itemInfo));
     });
   });
 };

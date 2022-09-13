@@ -79,6 +79,7 @@ const getIdFromProductItem = (product) => product.querySelector('span.item_id').
  * @returns {Element} Elemento de um item do carrinho.
  */
  const cartItensArray = [];
+
  const addLocalStorage = (id) => {
   cartItensArray.push(id);
    const save = JSON.stringify(cartItensArray);
@@ -93,7 +94,6 @@ const getIdFromProductItem = (product) => product.querySelector('span.item_id').
  const cartItemClickListener = (itemCLick) => {
   const cartItens = document.querySelector('.cart__items');
   cartItens.removeChild(itemCLick.target);
-  // console.log(itemCLick.target.id);
   removeLocalStorage(itemCLick.target.id);
  };
 const createCartItemElement = ({ id, title, price }) => {
@@ -119,13 +119,20 @@ const addCart = async () => {
 };
 const restoreLocalStorage = async () => {
   const save = getSavedCartItems();
+  const fetchlist = await fetchProducts('computador');
+  const arrayfech = fetchlist.results;
+  // const item2 = arrayfech.find((element) => element.id === 'MLB1937076326');
+  // console.log(item2);
   const saveArray = JSON.parse(save);
-  saveArray.forEach(async (element) => {
-    const item = await fetchItem(element);
-    cartItem.appendChild(createCartItemElement(item));
+  // console.log(fetchlist.results);
+  if (saveArray.length > 0) {
+  saveArray.forEach((elementId) => {
+    const item2 = arrayfech.find((element) => element.id === elementId);
+    cartItem.appendChild(createCartItemElement(item2));
   });
+}
 };
 window.onload = () => {
-  addCart();
   restoreLocalStorage();
+  addCart();
 };

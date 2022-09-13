@@ -2,6 +2,10 @@
 // experimente passar o mouse sobre o nome das funções e verá que elas possuem descrições! 
 // Fique a vontade para modificar o código já escrito e criar suas próprias funções!
 
+// const getSavedCartItems = require("./helpers/getSavedCartItems");
+
+// const saveCartItems = require("./helpers/saveCartItems");
+
 /**
  * Função responsável por criar e retornar o elemento de imagem do produto.
  * @param {string} imageSource - URL da imagem.
@@ -64,7 +68,7 @@ const createProductList = async () => {
  * @param {Element} product - Elemento do produto.
  * @returns {string} ID do produto.
  */
-const getIdFromProductItem = (product) => product.querySelector('span.id').innerText;
+const getIdFromProductItem = (product) => product.querySelector('span.item_id').innerText;
 
 /**
  * Função responsável por criar e retornar um item do carrinho.
@@ -74,22 +78,36 @@ const getIdFromProductItem = (product) => product.querySelector('span.id').inner
  * @param {string} product.price - Preço do produto.
  * @returns {Element} Elemento de um item do carrinho.
  */
-
+ const cartItensArray = [];
+ const addLocalStorage = (id) => {
+  cartItensArray.push(id);
+   const save = JSON.stringify(cartItensArray);
+   saveCartItems(save);
+ };
+ const removeLocalStorage = (id) => {
+   const index = cartItensArray.indexOf(id);
+   cartItensArray.splice(index, 1);
+   const save = JSON.stringify(cartItensArray);
+   saveCartItems(save);
+ };
  const cartItemClickListener = (itemCLick) => {
   const cartItens = document.querySelector('.cart__items');
   cartItens.removeChild(itemCLick.target);
+  // console.log(itemCLick.target.id);
+  removeLocalStorage(itemCLick.target.id);
  };
 const createCartItemElement = ({ id, title, price }) => {
   const li = document.createElement('li');
   li.className = 'cart__item';
+  li.id = id;
+  addLocalStorage(id);
   li.innerText = `ID: ${id} | TITLE: ${title} | PRICE: $${price}`;
   li.addEventListener('click', cartItemClickListener);
   return li;
 };
-
+const cartItem = document.querySelector('.cart__items');
 const addCart = async () => {
   await createProductList();
-  const cartItem = document.querySelector('.cart__items');
   const addCartBtn = document.querySelectorAll('.item__add');
   addCartBtn.forEach((element) => {
     element.addEventListener('click', async (btn) => {
@@ -99,7 +117,15 @@ const addCart = async () => {
     });
   });
 };
-
+const restoreLocalStorage = async () => {
+  const save = getSavedCartItems();
+  const saveArray = JSON.parse(save);
+  saveArray.forEach(async (element) => {
+    const item = await fetchItem(element);
+    cartItem.appendChild(createCartItemElement(item));
+  });
+};
 window.onload = () => {
   addCart();
+  restoreLocalStorage();
 };

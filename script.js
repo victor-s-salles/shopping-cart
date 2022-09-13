@@ -78,6 +78,21 @@ const getIdFromProductItem = (product) => product.querySelector('span.item_id').
  * @param {string} product.price - Preço do produto.
  * @returns {Element} Elemento de um item do carrinho.
  */
+ const updatePrice = (valor) => {
+  const totalPrice = document.querySelector('.total-price');
+  totalPrice.innerText = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' })
+  .format(valor);
+};
+let soma = 0;
+const sum = (valor) => {
+  soma += valor;
+  updatePrice(soma);
+};
+const subtraction = (valor) => {
+  soma -= valor;
+  updatePrice(soma);
+};
+
  const cartItensArray = [];
 
  const addLocalStorage = (id) => {
@@ -95,14 +110,21 @@ const getIdFromProductItem = (product) => product.querySelector('span.item_id').
   const cartItens = document.querySelector('.cart__items');
   cartItens.removeChild(itemCLick.target);
   removeLocalStorage(itemCLick.target.id);
+  const itemPrice = itemCLick.target.firstChild.nextSibling.innerText;
+  subtraction(parseFloat(itemPrice));
  };
 const createCartItemElement = ({ id, title, price }) => {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.id = id;
+  sum(price);
   addLocalStorage(id);
   li.innerText = `ID: ${id} | TITLE: ${title} | PRICE: $${price}`;
   li.addEventListener('click', cartItemClickListener);
+  const priceElement = document.createElement('span');
+  priceElement.classList = 'price';
+  priceElement.innerText = price;
+  li.appendChild(priceElement);
   return li;
 };
 const cartItem = document.querySelector('.cart__items');
@@ -132,7 +154,16 @@ const restoreLocalStorage = async () => {
   });
 }
 };
+
+const totalPrice = () => {
+  const getLocal = document.querySelector('.empty-cart');
+  const getcart = document.querySelector('.cart');
+  const priceElement = document.createElement('p');
+  priceElement.className = 'total-price';
+  getcart.insertBefore(priceElement, getLocal);
+};
 window.onload = () => {
   restoreLocalStorage();
   addCart();
+  totalPrice();
 };

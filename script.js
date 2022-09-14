@@ -110,22 +110,19 @@ const subtraction = (valor) => {
  const cartItemClickListener = (itemCLick) => {
   const cartItens = document.querySelector('.cart__items');
   cartItens.removeChild(itemCLick.target);
+  const price = parseFloat(itemCLick.target.classList.item(1));
   removeLocalStorage(itemCLick.target.id);
-//   const itemPrice = itemCLick.target.firstChild.nextSibling.innerText;
-//   subtraction(parseFloat(itemPrice));
+  subtraction(parseFloat(price));
  };
 const createCartItemElement = ({ id, title, price }) => {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.id = id;
+  li.classList.add(price);
   sum(price);
   addLocalStorage(id);
   li.innerText = `ID: ${id} | TITLE: ${title} | PRICE: $${price}`;
   li.addEventListener('click', cartItemClickListener);
-  const priceElement = document.createElement('span');
-  // priceElement.classList = 'price';
-  // priceElement.innerText = price;
-  // li.appendChild(priceElement);
   return li;
 };
 const loading = () => {

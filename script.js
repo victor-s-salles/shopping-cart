@@ -107,11 +107,25 @@ const subtraction = (valor) => {
    const save = JSON.stringify(cartItensArray);
    saveCartItems(save);
  };
+ const items = [];
+const storageCart = (item) => {
+  items.push(item);
+  const save = JSON.stringify(items);
+   saveCartItems(save);
+};
+const removeCart = (item) => {
+  console.log(item);
+  const index = items.indexOf(item);
+  items.splice(index, 1);
+  const save = JSON.stringify(items);
+  saveCartItems(save);
+};
  const cartItemClickListener = (itemCLick) => {
   const cartItens = document.querySelector('.cart__items');
   cartItens.removeChild(itemCLick.target);
   const price = parseFloat(itemCLick.target.classList.item(1));
   removeLocalStorage(itemCLick.target.id);
+  removeCart(itemCLick.target.innerHTML);
   subtraction(parseFloat(price));
  };
 const createCartItemElement = ({ id, title, price }) => {
@@ -122,15 +136,16 @@ const createCartItemElement = ({ id, title, price }) => {
   sum(price);
   addLocalStorage(id);
   li.innerText = `ID: ${id} | TITLE: ${title} | PRICE: $${price}`;
+  storageCart(li.innerHTML);
   li.addEventListener('click', cartItemClickListener);
   return li;
 };
 const loading = () => {
-  const items = document.querySelector('.items');
+  const itemsHtml = document.querySelector('.items');
   const section = document.createElement('section');
   section.className = 'loading';
   section.innerText = 'carregando...';
-  items.appendChild(section);
+  itemsHtml.appendChild(section);
 };
 const cartItem = document.querySelector('.cart__items');
 const addCart = async () => {
@@ -176,9 +191,24 @@ const cleanCart = () => {
   });
 };
 
+const restoreCart = () => {
+  const save = getSavedCartItems();
+  const saveArray = JSON.parse(save);
+  console.log(saveArray);
+  if (saveArray) {
+    saveArray.forEach((elementId) => {
+      const li = document.createElement('li');
+      li.className = 'cart__item';
+      li.innerHTML = elementId;
+      li.addEventListener('click', cartItemClickListener);
+      cartItem.appendChild(li);
+    });
+  }
+};
 window.onload = () => {
   // restoreLocalStorage();
   addCart();
   totalPrice();
   cleanCart();
+  restoreCart();
 };

@@ -10,6 +10,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <script src="./helpers/fetchItem.js" defer></script>
     <script src="./helpers/fetchProducts.js" defer></script>
     <script src="./helpers/saveCartItems.js" defer></script>
@@ -19,10 +21,10 @@
   <body>
     <header class="header">
       <div class="container-title">
-        <span class="title"><strong>trybe</strong>shopping</span>
+        <img id="logoCart" src="./images/logo carrinho de compras.png" alt="Logo carrinho de compras">
       </div>
-      <i class="material-icons" style="font-size:45px;color:white">shopping_cart</i>
       <div class="container-cartTitle">
+        <i class="material-icons">shopping_cart</i>
         <span class="cart__title">Meu carrinho</span>
       </div>
     </header>
@@ -30,7 +32,7 @@
       <section class="items"></section>
       <section class="cart">
         <ol class="cart__items"></ol>
-        <button class="empty-cart">Esvaziar carrinho</button>
+        <button class="empty-cart">Esvaziar carrinho</button>        
       </section>
     </section>
   </body>

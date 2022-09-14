@@ -94,19 +94,19 @@ const subtraction = (valor) => {
   updatePrice(soma);
 };
 
-//  const cartItensArray = [];
+ const cartItensArray = [];
 
-// //  const addLocalStorage = (id) => {
-// //   cartItensArray.push(id);
-// //    const save = JSON.stringify(cartItensArray);
-// //    saveCartItems(save);
-// //  };
-// //  const removeLocalStorage = (id) => {
-// //    const index = cartItensArray.indexOf(id);
-// //    cartItensArray.splice(index, 1);
-// //    const save = JSON.stringify(cartItensArray);
-// //    saveCartItems(save);
-// //  };
+ const addLocalStorage = (id) => {
+  cartItensArray.push(id);
+   const save = JSON.stringify(cartItensArray);
+   saveCartItems(save);
+ };
+ const removeLocalStorage = (id) => {
+   const index = cartItensArray.indexOf(id);
+   cartItensArray.splice(index, 1);
+   const save = JSON.stringify(cartItensArray);
+   saveCartItems(save);
+ };
  const cartItemClickListener = (itemCLick) => {
   const cartItens = document.querySelector('.cart__items');
   cartItens.removeChild(itemCLick.target);
@@ -149,19 +149,19 @@ const addCart = async () => {
   });
   document.querySelector('.loading').remove();
 };
-// const restoreLocalStorage = async () => {
-//   const save = getSavedCartItems();
-//   const fetchlist = await fetchProducts('computador');
-//   const arrayfech = fetchlist.results;
-//   console.log(save);
-//   const saveArray = JSON.parse(save);
-//   if (saveArray) {
-//   saveArray.forEach((elementId) => {
-//     const item2 = arrayfech.find((element) => element.id === elementId);
-//     cartItem.appendChild(createCartItemElement(item2));
-//   });
-// }
-// };
+const restoreLocalStorage = async () => {
+  const save = getSavedCartItems();
+  const fetchlist = await fetchProducts('computador');
+  const arrayfech = fetchlist.results;
+  console.log(save);
+  const saveArray = JSON.parse(save);
+  if (saveArray) {
+  saveArray.forEach((elementId) => {
+    const item2 = arrayfech.find((element) => element.id === elementId);
+    cartItem.appendChild(createCartItemElement(item2));
+  });
+}
+};
 
 const totalPrice = () => {
   const getLocal = document.querySelector('.empty-cart');
